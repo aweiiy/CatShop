@@ -1,0 +1,114 @@
+[
+  {
+    "id": 0,
+    "name": "Alex",
+    "picture": "images/img1.jpg",
+    "breed": "British Shorthair",
+    "location": "Lisco, Alabama"
+  },
+  {
+    "id": 1,
+    "name": "Apollo",
+    "picture": "images/img2.jpg",
+    "breed": "Chartreux",
+    "location": "Tooleville, West Virginia"
+  },
+  {
+    "id": 2,
+    "name": "Jacob",
+    "picture": "images/img3.jpg",
+    "breed": "Burmese",
+    "location": "Freeburn, Idaho"
+  },
+  {
+    "id": 3,
+    "name": "Rocco",
+    "picture": "images/img4.jpg",
+    "breed": "Birman",
+    "location": "Camas, Pennsylvania"
+  },
+  {
+    "id": 4,
+    "name": "Romeo",
+    "picture": "images/img5.jpg",
+    "breed": "American Shorthair",
+    "location": "Gerber, South Dakota"
+  },
+  {
+    "id": 5,
+    "name": "Sullivan",
+    "picture": "images/img6.jpg",
+    "breed": "Egyptian Mau",
+    "location": "Innsbrook, Illinois"
+  },
+  {
+    "id": 6,
+    "name": "Dawn",
+    "picture": "images/img7.jpg",
+    "breed": "Maine Coon",
+    "location": "Soudan, Louisiana"
+  },
+  {
+    "id": 7,
+    "name": "Star",
+    "picture": "images/img8.jpg",
+    "breed": "Persian Cat",
+    "location": "Jacksonwald, Palau"
+  },
+  {
+    "id": 8,
+    "name": "Shawnee",
+    "picture": "images/img9.jpg",
+    "breed": "Scottish Fold",
+    "location": "Honolulu, Hawaii"
+  },
+  {
+    "id": 9,
+    "name": "Sassy",
+    "picture": "images/img10.jpg",
+    "breed": "Burmese",
+    "location": "Matheny, Utah"
+  },
+  {
+    "id": 10,
+    "name": "Catarina",
+    "picture": "images/img11.jpg",
+    "breed": "Burmese",
+    "location": "Tyhee, Indiana"
+  },
+  {
+    "id": 11,
+    "name": "Valentine",
+    "picture": "images/img12.jpg",
+    "breed": "British Shorthair",
+    "location": "Windsor, Montana"
+  },
+  {
+    "id": 12,
+    "name": "Blaze",
+    "picture": "images/img13.jpg",
+    "breed": "Chartreux",
+    "location": "Kingstowne, Nevada"
+  },
+  {
+    "id": 13,
+    "name": "Sunny",
+    "picture": "images/img14.jpg",
+    "breed": "British Shorthair",
+    "location": "Sultana, Massachusetts"
+  },
+  {
+    "id": 14,
+    "name": "Stripes",
+    "picture": "images/img15.jpg",
+    "breed": "Chartreux",
+    "location": "Broadlands, Oregon"
+  },
+  {
+    "id": 15,
+    "name": "Sammie",
+    "picture": "images/img16.jpg",
+    "breed": "Siamese",
+    "location": "Dawn, Wisconsin"
+  }
+]
