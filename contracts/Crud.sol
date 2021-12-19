@@ -41,6 +41,10 @@ contract Crud {
     return (pets);
   }
 
+    function getPetsLength() public view returns(uint) {
+        return (pets.length);
+    }
+
   function deletePet(uint id, address owner) public returns(string memory) {
     for(uint i = 0; i < pets.length; i++) {
       if(id == pets[i].Id && owner == pets[i].owner){

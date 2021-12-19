@@ -72,6 +72,7 @@ initContract: function() {
       App.addAccountChangeListener();
       App.displayAccount();
       App.handleCrud();
+      App.loadPetsToTable();
     });
 
     return App.bindEvents();
@@ -232,13 +233,41 @@ web3.eth.getAccounts(function(error, accounts) {
                 $deleteResult.innerHTML = `Ooops... there was an error while trying to delete pet ${id}`;
               });
         });
-
-        //return purchaseInstance.getPurchasers.call();
       })
     })
   },
 
+loadPetsToTable: function (){
+  var petsRow = $('#petsRow');
+  var petTemplate = $('#petTemplate');
+  var CrudInstance;
+  var petInfo;
+  var image = "images/";
+  App.contracts.Crud.deployed().then(function (instance) {
+    CrudInstance = instance;
 
+    for (i = 0; i < 5; i++)
+    {
+      petInfo = CrudInstance.getPet(i);
+      petInfo.then((data) =>
+      {
+        if(data[1].length != 0)
+        {
+          console.log(data[1],data[2],data[3],data[4])
+          petTemplate.find('.owner').attr('data-id', data[0]);
+          petTemplate.find('.btn-purchase').attr('data-id', data[0]);
+          petTemplate.find('.panel-title').text(data[1]);
+          petTemplate.find('img').attr('src', image.concat(data[2]));
+          petTemplate.find('.pet-breed').text(data[3]);
+          petTemplate.find('.pet-location').text(data[4]);
+
+
+          petsRow.append(petTemplate.html());
+        }
+      });
+    }
+  })
+}
 
 };
 
