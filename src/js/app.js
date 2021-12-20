@@ -110,7 +110,6 @@ App.contracts.Crud.deployed().then(function(instance) {
   var account = web3.eth.accounts[0];
   console.log("logged in account: "+ account);
   for (i = 0; i < purchasers.length; i++) {
-    console.log(purchasers);
     if (purchasers[i] !== '0x0000000000000000000000000000000000000000') {
       //$('.panel-pet').eq(i).find('button').text(`Owned by: ${purchasers[i]}`).attr('disabled', true).css( "color", "red" );
       $('.panel-pet').eq(i-1).find('.btn-purchase').replaceWith(`<span class="owner"><strong>Owned by</strong>: ${purchasers[i]}</span>`);
@@ -129,6 +128,7 @@ App.contracts.Crud.deployed().then(function(instance) {
     event.preventDefault();
 
     var petId = parseInt($(event.target).data('id'));
+    var petPrice = parseInt($(event.target).data("price"));
 
 var purchaseInstance;
 
@@ -141,9 +141,9 @@ web3.eth.getAccounts(function(error, accounts) {
 
   App.contracts.Crud.deployed().then(function(instance) {
     purchaseInstance = instance;
-
+console.log("petPrice "+petPrice);
     // Execute adopt as a transaction by sending account
-    return purchaseInstance.purchase(petId, {from: account});
+    return purchaseInstance.purchase(petId, {from: account, value: petPrice});
   }).then(function(result) {
     return App.markPurchased();
   }).catch(function(err) {
@@ -178,10 +178,11 @@ web3.eth.getAccounts(function(error, accounts) {
           const picture = e.target.elements[1].value;
           const breed = e.target.elements[2].value;
           const location = e.target.elements[3].value;
+          const price = e.target.elements[4].value;
 
 
           const pet = CrudInstance
-              .createPetListing(name, picture, breed, location, {from: account});
+              .createPetListing(name, picture, breed, location, price, {from: account});
           document.getElementById("loader").style.display = "block";
           pet.then((result) => {
             document.getElementById("loader").style.display = "none";
@@ -209,9 +210,10 @@ web3.eth.getAccounts(function(error, accounts) {
           const picture = e.target.elements[2].value;
           const breed = e.target.elements[3].value;
           const location = e.target.elements[4].value;
+          const price = e.target.elements[5].value;
 
           const updatePet = CrudInstance
-              .updatePet(id, name, picture, breed, location, accounts[0], {from: account});
+              .updatePet(id, name, picture, breed, location, accounts[0], price, {from: account});
           updatePet.then((result) => {
                 $editResult.innerHTML = `User details are Updated: <br/> ${id}- ${name}-`;
               })
@@ -241,7 +243,6 @@ loadPetsToTable: function (){
   var petTemplate = $('#petTemplate');
   var CrudInstance;
   var petInfo;
-  var image = "images/";
   App.contracts.Crud.deployed().then(function (instance) {
     CrudInstance = instance;
 
@@ -255,9 +256,11 @@ loadPetsToTable: function (){
           petTemplate.find('.owner').attr('data-id', data[0]);
           petTemplate.find('.btn-purchase').attr('data-id', data[0]);
           petTemplate.find('.panel-title').text(data[1]);
-          petTemplate.find('img').attr('src', image.concat(data[2]));
+          petTemplate.find('img').attr('src', "images/" + data[2]);
           petTemplate.find('.pet-breed').text(data[3]);
           petTemplate.find('.pet-location').text(data[4]);
+          petTemplate.find('.pet-price').text(data[7] + " wei");
+          petTemplate.find('.btn-purchase').attr('data-price', data[7]);
 
 
           petsRow.append(petTemplate.html());

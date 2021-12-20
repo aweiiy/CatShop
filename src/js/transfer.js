@@ -80,7 +80,7 @@ App = {
                     const id = e.target.elements[0].value;
                     const newOwner = e.target.elements[1].value;
 
-                    instance.TransferPet(id, accounts[0], newOwner, {from: account});
+                    instance.TransferPet(id, accounts[0], newOwner, {from: account, value: 1000});
                 });
             })
         })

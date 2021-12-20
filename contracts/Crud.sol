@@ -12,6 +12,7 @@ contract Crud {
         string location;
         address seller;
         address owner;
+        uint256 price;
     }
     uint public nextId = 1;
     Pet[] public pets;
@@ -21,18 +22,19 @@ contract Crud {
         string memory name,
         string memory picture,
         string memory breed,
-        string memory location
+        string memory location,
+        uint256 price
     ) public {
         address seller = msg.sender;
         address owner = msg.sender;
-        pets.push(Pet(nextId, name, picture, breed, location,seller, owner));
+        pets.push(Pet(nextId, name, picture, breed, location,seller, owner, price));
         nextId ++;
     }
 
-    function getPet(uint id) public view returns(uint, string memory, string memory, string memory, string memory, address, address) {
+    function getPet(uint id) public view returns(uint, string memory, string memory, string memory, string memory, address, address, uint256) {
         for(uint i = 0; i < pets.length; i++) {
             if(id == pets[i].Id){
-                return (pets[i].Id, pets[i].name, pets[i].picture, pets[i].breed, pets[i].location, pets[i].seller, pets[i].owner);
+                return (pets[i].Id, pets[i].name, pets[i].picture, pets[i].breed, pets[i].location, pets[i].seller, pets[i].owner, pets[i].price);
             }
         }
         revert("Pet not found");
@@ -57,7 +59,7 @@ contract Crud {
         revert("Error");
     }
 
-    function updatePet(uint id, string memory name, string memory picture, string memory breed, string memory location, address owner) public returns(uint, string memory) {
+    function updatePet(uint id, string memory name, string memory picture, string memory breed, string memory location, address owner, uint256 price) public returns(uint, string memory) {
 
         for(uint i = 0; i < pets.length; i++) {
             if(id == pets[i].Id && owner == pets[i].owner){
@@ -65,6 +67,7 @@ contract Crud {
                 pets[i].picture = picture;
                 pets[i].breed = breed;
                 pets[i].location = location;
+                pets[i].price = price;
                 return (pets[i].Id, pets[i].name);
             }
         }
@@ -88,24 +91,26 @@ contract Crud {
     }
 
 
-    address[20] public purchasers;
+    address[25] public purchasers;
 
-    function purchase(uint petId) public returns (uint) {
-        require(petId >= 0 && petId <= 20);
-
+    function purchase(uint petId) public payable returns (uint) {
+        require(petId >= 0 && petId <= 25);
+        uint256 transactionPrice;
         for(uint i = 0; i < pets.length; i++) {
             if(petId == pets[i].Id){
                 address owner = msg.sender;
                 pets[i].owner = owner;
+                transactionPrice = pets[i].price;
             }
         }
 
         purchasers[petId] = msg.sender;
 
+        require(msg.value == transactionPrice, "Transfer only the required ammount");
         return petId;
     }
 
-    function getPurchasers() public view returns (address[20] memory) {
+    function getPurchasers() public view returns (address[25] memory) {
         return purchasers;
     }
 
