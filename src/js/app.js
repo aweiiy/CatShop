@@ -4,7 +4,7 @@ App = {
 
   init: async function() {
     // Load pets.
-    $.getJSON('../pets.json', function(data) {
+    /*$.getJSON('../pets.json', function(data) {
       var petsRow = $('#petsRow');
       var petTemplate = $('#petTemplate');
 
@@ -21,6 +21,8 @@ App = {
         petsRow.append(petTemplate.html());
       }
     });
+    */
+
 
     return await App.initWeb3();
   },
@@ -48,12 +50,7 @@ else {
 web3 = new Web3(App.web3Provider);
 
 var account = web3.eth.getAccounts[0];
-var accountInterval = setInterval(function() {
-  if (web3.eth.accounts[0] !== account) {
-    account = web3.eth.accounts[0];
-    document.getElementById("address").innerHTML = account;
-    }
-      }, 100);
+
 
     return App.initContract();
   },
@@ -68,11 +65,12 @@ initContract: function() {
       App.contracts.Crud.setProvider(App.web3Provider);
 
       // Use our contract to retrieve and mark the purchased pets
-      App.markPurchased();
+
       App.addAccountChangeListener();
       App.displayAccount();
       App.handleCrud();
       App.loadPetsToTable();
+      App.markPurchased();
     });
 
     return App.bindEvents();
@@ -95,6 +93,7 @@ initContract: function() {
       }
       if (accounts[0]) {
         $('#account').text(accounts[0]);
+        $('#address').text(accounts[0]);
       }
     });
   },
@@ -109,8 +108,9 @@ App.contracts.Crud.deployed().then(function(instance) {
   return purchaseInstance.getPurchasers.call();
 }).then(function(purchasers, accounts) {
   var account = web3.eth.accounts[0];
-  console.log(account);
+  console.log("logged in account: "+ account);
   for (i = 0; i < purchasers.length; i++) {
+    console.log(purchasers[i]);
     if (purchasers[i] !== '0x0000000000000000000000000000000000000000') {
       //$('.panel-pet').eq(i).find('button').text(`Owned by: ${purchasers[i]}`).attr('disabled', true).css( "color", "red" );
       $('.panel-pet').eq(i).find('button').replaceWith(`<span class="owner"><strong>Purchased by</strong>: ${purchasers[i]}</span>`);
@@ -139,7 +139,7 @@ web3.eth.getAccounts(function(error, accounts) {
 
   var account = accounts[0];
 
-  App.contracts.Purchase.deployed().then(function(instance) {
+  App.contracts.Crud.deployed().then(function(instance) {
     purchaseInstance = instance;
 
     // Execute adopt as a transaction by sending account
@@ -185,7 +185,6 @@ web3.eth.getAccounts(function(error, accounts) {
           document.getElementById("loader").style.display = "block";
           pet.then((result) => {
             document.getElementById("loader").style.display = "none";
-            console.log(result);
             $createResult.innerHTML = `New pet was added:<br/> Name: ${name}`;
           });
         });
@@ -199,7 +198,7 @@ web3.eth.getAccounts(function(error, accounts) {
                 $readResult.innerHTML = `Id: ${result[0]} Name: ${result[1]}, Breed: ${result[3]}, Location: ${result[4]},Owner: ${result[6]}`;
               })
               .catch((_e) => {
-                $readResult.innerHTML = `Ooops... there was an error while trying to read pet ${id}`;
+                $readResult.innerHTML = `There was an error while trying to read pet ${id}`;
               });
         });
 
@@ -217,7 +216,7 @@ web3.eth.getAccounts(function(error, accounts) {
                 $editResult.innerHTML = `User details are Updated: <br/> ${id}- ${name}-`;
               })
               .catch((_e) => {
-                $editResult.innerHTML = `Ooops... there was an error while trying to update name of pet ${id} to ${name}`;
+                $editResult.innerHTML = `There was an error while trying to update pet info`;
               });
         });
 
@@ -230,7 +229,7 @@ web3.eth.getAccounts(function(error, accounts) {
                 $deleteResult.innerHTML = `Deleted pet ${id}`;
               })
               .catch((_e) => {
-                $deleteResult.innerHTML = `Ooops... there was an error while trying to delete pet ${id}`;
+                $deleteResult.innerHTML = `There was an error while trying to delete pet ${id}`;
               });
         });
       })
@@ -253,7 +252,6 @@ loadPetsToTable: function (){
       {
         if(data[1].length != 0)
         {
-          console.log(data[1],data[2],data[3],data[4])
           petTemplate.find('.owner').attr('data-id', data[0]);
           petTemplate.find('.btn-purchase').attr('data-id', data[0]);
           petTemplate.find('.panel-title').text(data[1]);
