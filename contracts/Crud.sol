@@ -15,6 +15,7 @@ contract Crud {
     }
     uint public nextId = 1;
     Pet[] public pets;
+    uint256 transferPrice = 1000 wei;
 
     function createPetListing(
         string memory name,
@@ -72,8 +73,8 @@ contract Crud {
         revert("No pet found");
     }
 
-    function TransferPet(uint id, address owner, address newOwner) public returns(uint, string memory) {
-
+    function TransferPet(uint id, address owner, address newOwner) public payable returns(uint, string memory) {
+        require(msg.value == transferPrice, "Price must be equal to transfer price");
         for(uint i = 0; i < pets.length; i++) {
             if(id == pets[i].Id && owner == pets[i].owner){
                 pets[i].owner = newOwner;

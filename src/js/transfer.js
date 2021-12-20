@@ -72,24 +72,15 @@ App = {
 
             var CrudInstance;
             App.contracts.Crud.deployed().then(function (instance) {
-                CrudInstance = instance;
 
                 const $transfer = document.getElementById("transfer");
-                const $transferResult = document.getElementById("transfer-result");
 
                 $transfer.addEventListener("submit", (e) => {
                     e.preventDefault();
                     const id = e.target.elements[0].value;
                     const newOwner = e.target.elements[1].value;
 
-                    const transferPet = CrudInstance
-                        .TransferPet(id, accounts[0], newOwner, {from: account});
-                    transferPet.then((result) => {
-                        $transferResult.innerHTML = `Pet was transfered to ${newOwner}`;
-                    })
-                        .catch((_e) => {
-                            $transferResult.innerHTML = `There was an error while trying to transfer pet`;
-                        });
+                    instance.TransferPet(id, accounts[0], newOwner, {from: account});
                 });
             })
         })
