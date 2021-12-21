@@ -11452,6 +11452,45 @@ html {
   }
 }
 
+.catshop .catshop-item {
+  cursor: pointer;
+  position: relative;
+  display: block;
+  max-width: 25rem;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+.catshop .catshop-item .catshop-item-caption {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: all 0.2s ease-in-out;
+  opacity: 0;
+  background-color: rgba(26, 188, 156, 0.9);
+}
+.catshop .catshop-item .catshop-item-caption:hover {
+  opacity: 1;
+}
+.catshop .catshop-item .catshop-item-caption .catshop-item-caption-content {
+  font-size: 1.5rem;
+}
+
+.catshop-modal .btn-close {
+  color: #1abc9c;
+  font-size: 2rem;
+  padding: 1rem;
+}
+.catshop-modal .catshop-modal-title {
+  font-size: 2.25rem;
+  line-height: 2rem;
+}
+@media (min-width: 992px) {
+  .catshop-modal .catshop-modal-title {
+    font-size: 3rem;
+    line-height: 2.5rem;
+  }
+}
+
 .footer {
   padding-top: 5rem;
   padding-bottom: 5rem;
