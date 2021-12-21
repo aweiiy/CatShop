@@ -17,6 +17,7 @@ contract Crud {
     uint public nextId = 1;
     Pet[] public pets;
     uint256 transferPrice = 1000 wei;
+    address[25] public purchasers;
 
     function createPetListing(
         string memory name,
@@ -52,6 +53,7 @@ contract Crud {
     function deletePet(uint id, address owner) public returns(string memory) {
         for(uint i = 0; i < pets.length; i++) {
             if(id == pets[i].Id && owner == pets[i].owner){
+                purchasers[pets[i].Id] = 0x0000000000000000000000000000000000000000;
                 delete(pets[i]);
                 return ("Pet has been delisted");
             }
@@ -90,8 +92,6 @@ contract Crud {
         revert("No pet found");
     }
 
-
-    address[25] public purchasers;
 
     function purchase(uint petId) public payable returns (uint) {
         require(petId >= 0 && petId <= 25);

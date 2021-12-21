@@ -80,20 +80,16 @@ App = {
 
           return purchaseInstance.getPurchasers.call();
         })
-        .then(function (purchasers, accounts) {
-          var account = web3.eth.accounts[0];
-          console.log("logged in account: " + account);
+        .then(function (purchasers) {
           for (i = 0; i < purchasers.length; i++) {
             if (purchasers[i] !== "0x0000000000000000000000000000000000000000") {
-              //$('.panel-pet').eq(i).find('button').text(`Owned by: ${purchasers[i]}`).attr('disabled', true).css( "color", "red" );
               $(".panel-pet")
-                  .eq(i - 1)
+                  .eq(i -1)
                   .find(".btn-purchase")
                   .replaceWith(`<span class="owner"><strong>Owned by</strong>: ${purchasers[i]}</span>`);
-              //$('.panel-pet').eq(i).find('.owner').html(`<strong>Purchased by</strong>: ${purchasers[i]}`).attr('.d-none', '.d-block')
               if (purchasers[i] == account)
                 $(".panel-pet")
-                    .eq(i - 1)
+                    .eq(i -1)
                     .find(".owner")
                     .css("color", "red");
             }
@@ -122,8 +118,6 @@ App = {
       App.contracts.Crud.deployed()
           .then(function (instance) {
             purchaseInstance = instance;
-            console.log("petPrice " + petPrice);
-            // Execute adopt as a transaction by sending account
             return purchaseInstance.purchase(petId, { from: account, value: petPrice });
           })
           .then(function (result) {
