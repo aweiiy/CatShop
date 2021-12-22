@@ -54,7 +54,7 @@ App = {
   },
 
   addAccountChangeListener: function () {
-    window.ethereum.on("accountsChanged", function (accounts) {
+    window.ethereum.on("accountsChanged", function () {
       location.reload(true);
     });
   },
@@ -71,20 +71,19 @@ App = {
     });
   },
 
+
   markPurchased: function () {
     var purchaseInstance;
 
     App.contracts.Crud.deployed()
         .then(function (instance) {
           purchaseInstance = instance;
-
           return purchaseInstance.getPurchasers.call();
         })
         .then(function (purchasers,accounts) {
           var account = web3.eth.accounts[0];
           for (i = 0; i < purchasers.length; i++) {
             if (purchasers[i] !== "0x0000000000000000000000000000000000000000") {
-              console.log(i);
               $('.panel-pet').eq(i-1).find('button').replaceWith(`<span class="owner"><strong>Owned by</strong>: ${purchasers[i]}</span>`);
               if (purchasers[i] == account)
                 $(".panel-pet")
@@ -138,7 +137,7 @@ App = {
     App.contracts.Crud.deployed().then(function (instance) {
       LoadInstance = instance;
 
-      for (i = 0; i < 20; i++) {
+      for (i = 0; i < 25; i++) {
         petInfo = LoadInstance.getPet(i);
         petInfo.then((data) => {
           if (data[1].length != 0) {
