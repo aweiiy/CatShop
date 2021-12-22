@@ -20,7 +20,7 @@ App = {
     }
     // If no injected web3 instance is detected, fall back to Ganache
     else {
-      App.web3Provider = new Web3.providers.HttpProvider("http://localhost:7545");
+      App.web3Provider = new Web3.providers.HttpProvider("http://localhost:8545");
     }
     web3 = new Web3(App.web3Provider);
 
@@ -80,16 +80,15 @@ App = {
 
           return purchaseInstance.getPurchasers.call();
         })
-        .then(function (purchasers) {
+        .then(function (purchasers,accounts) {
+          var account = web3.eth.accounts[0];
           for (i = 0; i < purchasers.length; i++) {
             if (purchasers[i] !== "0x0000000000000000000000000000000000000000") {
-              $(".panel-pet")
-                  .eq(i -1)
-                  .find(".btn-purchase")
-                  .replaceWith(`<span class="owner"><strong>Owned by</strong>: ${purchasers[i]}</span>`);
+              console.log(i);
+              $('.panel-pet').eq(i-1).find('button').replaceWith(`<span class="owner"><strong>Owned by</strong>: ${purchasers[i]}</span>`);
               if (purchasers[i] == account)
                 $(".panel-pet")
-                    .eq(i -1)
+                    .eq(i-1)
                     .find(".owner")
                     .css("color", "red");
             }
